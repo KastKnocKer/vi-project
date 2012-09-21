@@ -6,17 +6,22 @@ public class MySQLConnection{
 	
 	private String Host			= "localhost";
 	private String nomeDB 		= "vip_db";     		// Nome del Database a cui connettersi
-	private String nomeUtente	= "prog";   			// Nome utente utilizzato per la connessione al Database
-	private String pwdUtente	= "prog";    			// Password usata per la connessione al Database
+	private String nomeUtente	= "root";   			// Nome utente utilizzato per la connessione al Database
+	private String pwdUtente	= "";    			// Password usata per la connessione al Database
 	private String nomeDriver	= "com.mysql.jdbc.Driver";	//Contiene il nome del driver JDBC
 	private String errore		= "";       				// Raccoglie informazioni riguardo l'ultima eccezione sollevata
 	
 	private boolean connected = false;
 	private Connection db;       // La connessione col Database
 	
-	public MySQLConnection(){
-		
+	public MySQLConnection(String Host, String nomeDB, String nomeUtente, String pwdUtente){
+		this.Host = Host;
+		this.nomeDB = nomeDB;
+		this.nomeUtente = nomeUtente;
+		this.pwdUtente = pwdUtente;
 	}
+	
+	public MySQLConnection(){}
 	
 	
 	/**
@@ -42,7 +47,7 @@ public class MySQLConnection{
 	
 	
 	/**
-	 * Interrompe la connessione con il database
+	 * Chiude la connessione con il database
 	 */
 	public boolean disconnect(){
 		try {
