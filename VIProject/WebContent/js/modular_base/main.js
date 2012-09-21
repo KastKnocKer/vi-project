@@ -12,7 +12,7 @@ var modular_base_main = function modular_base_main(){
 	    layout: 'border',
 	    items: [{
 	        region: 'north',
-	        html: '<h1 class="x-panel-header">Page Title</h1>',
+	        html: '<h1 class="x-panel-header">Vignola Import Project</h1>',
 	        border: false,
 	        margins: '0 0 5 0'
 	    }, {
