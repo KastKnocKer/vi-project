@@ -40,7 +40,7 @@
 				}
 			
 			//TODO togliere e terminare il login
-			loginStart = false;
+			//loginStart = false;
 			
 			if(loginStart){
 				//Carico la pagina di login

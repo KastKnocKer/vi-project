@@ -15,7 +15,7 @@ var login_main = function registration_main(){
 	    //height: 600,
 
 	    // The form will submit an AJAX request to this URL when submitted
-	    url: 'login?tipoAccesso=CASSIERE',
+	    url: 'Login?altriattributi=lalalal',
 /*
 	    // Fields will be arranged vertically, stretched to full width
 	    layout: 'anchor',
@@ -29,12 +29,14 @@ var login_main = function registration_main(){
 	    items: [{
 	        fieldLabel: 'Username',
 	        name: 'username',
-	        allowBlank: false
+	        allowBlank: false,
+	        value: 'test'
 	    },{
 	        fieldLabel: 'Password',
 	        name: 'password',
 	        inputType: 'password',
-	        allowBlank: false
+	        allowBlank: false,
+	        value: 'test'
 	    }/*,{	//Possibile registrazione futura
             xtype: 'displayfield',
             //name: 'displayfield1',
@@ -58,7 +60,7 @@ var login_main = function registration_main(){
 	                form.submit({
 	                    success: function(form, action) {
 	                    	Ext.Msg.alert('Info:', action.result.message);
-	                    	location.replace('index_desktop.jsp');
+	                    	location.replace('index.jsp');
 	                    },
 	                    failure: function(form, action) {
 	                    	Ext.Msg.alert('Failed', action.result.message);
