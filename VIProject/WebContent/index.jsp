@@ -6,9 +6,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<script type="text/javascript" charset="utf-8" src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js"></script>
 	<link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.1.0-gpl/resources/css/ext-all-gray.css" />
-	<script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript" src="js/login/main.js"></script>
-	<script type="text/javascript" src="js/modular_base/main.js"></script>
+	<script type="text/javascript" src="js/login/login_main.js"></script>
+	<script type="text/javascript" src="js/modular_base/modular_base_main.js"></script>
 	<title>Vignola Import Project</title>
 </head>
 	
