@@ -84,7 +84,7 @@ var container_main = function container_main(){
 	    }]
 	});
 	
-	var myTabPanel = Ext.getCmp('main_tabpanel');
-	myTabPanel.insert(formprova);
+	Ext.getCmp('main_tabpanel').add(formprova);
+	
 	
 }
