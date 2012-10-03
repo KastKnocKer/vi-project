@@ -24,8 +24,8 @@ window.ondragleave = function(e)
 Ext.Loader.setConfig({
     enabled: true,
     paths: {
-        'Ext.ux': '../module_container/ux',
-        'Ext.ux.upload': '../module_container/ux/upload'
+        'Ext.ux': './ux',
+        'Ext.ux.upload': './ux/upload'
     }
 });
 
