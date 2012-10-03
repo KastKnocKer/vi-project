@@ -46,37 +46,36 @@ var container_main = function container_main(){
 	    }]
 	});
 	
-	var formprova = Ext.create('Ext.form.Panel', {
-		id: 'form_prova',
-	    title: 'Miriana Basic Form',
-	    bodyPadding: 5,
-	    width: 350,
-
-	    // Any configuration items here will be automatically passed along to
-	    // the Ext.form.Basic instance when it gets created.
-
-	    // The form will submit an AJAX request to this URL when submitted
-	    url: 'save-form.php',
-
+	
+	
+	
+	var prova_form_upload = Ext.create('Ext.form.Panel', {
+	    title: 'Upload a Photo',
+	    width: 400,
+	    bodyPadding: 10,
+	    frame: true,
+	    renderTo: Ext.getBody(),
 	    items: [{
-	        xtype: 'textfield',
-	        fieldLabel: 'Field',
-	        name: 'theField'
+	        xtype: 'filefield',
+	        name: 'photo',
+	        fieldLabel: 'Photo',
+	        labelWidth: 50,
+	        msgTarget: 'side',
+	        allowBlank: false,
+	        anchor: '100%',
+	        buttonText: 'Select Photo...'
 	    }],
 
 	    buttons: [{
-	        text: 'Submit',
+	        text: 'Upload',
 	        handler: function() {
-	            // The getForm() method returns the Ext.form.Basic instance:
 	            var form = this.up('form').getForm();
-	            if (form.isValid()) {
-	                // Submit the Ajax request and handle the response
+	            if(form.isValid()){
 	                form.submit({
-	                    success: function(form, action) {
-	                       Ext.Msg.alert('Success', action.result.message);
-	                    },
-	                    failure: function(form, action) {
-	                        Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+	                    url: 'photo-upload.php',
+	                    waitMsg: 'Uploading your photo...',
+	                    success: function(fp, o) {
+	                        Ext.Msg.alert('Success', 'Your photo "' + o.result.file + '" has been uploaded.');
 	                    }
 	                });
 	            }
@@ -84,7 +83,6 @@ var container_main = function container_main(){
 	    }]
 	});
 	
-	Ext.getCmp('main_tabpanel').add(formprova);
-	
-	
+	var myTabPanel = Ext.getCmp('main_tabpanel');
+	myTabPanel.add(prova_form_upload);
 }
