@@ -1,3 +1,41 @@
+window.ondragenter = function(e)
+{
+    e.dataTransfer.dropEffect = 'none';
+    e.preventDefault();
+    return false;
+};
+
+window.ondragover = function(e)
+{
+    e.preventDefault();
+    return false;
+};
+
+window.ondrop = function(e)
+{
+    return false;
+};
+
+window.ondragleave = function(e)
+{
+    return false;
+};
+
+Ext.Loader.setConfig({
+    enabled: true,
+    paths: {
+        'Ext.ux': '../module_container/ux',
+        'Ext.ux.upload': '../module_container/ux/upload'
+    }
+});
+
+Ext.require(['Ext.grid.*',
+        'Ext.data.*',
+        'Ext.util.*',
+        'Ext.state.*',
+        'Ext.ux.upload.Button',
+        'Ext.ux.upload.plugin.Window']);
+
 /**
  * Funzione main del modulo container: visualizza la pagina di accesso al modulo
  */
