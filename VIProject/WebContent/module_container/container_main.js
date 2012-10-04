@@ -94,7 +94,7 @@ var container_main = function container_main(){
 	        //...TODO: modificare i tipi di file
 	    ]
 	});
-	
+	//TODO: aggiungere drag e drop
 	var prova_form_upload = Ext.create('Ext.form.Panel', {
 	    title: 'Upload a File',
 	    width: 400,
@@ -154,5 +154,5 @@ var container_main = function container_main(){
 
 	var myTabPanel = Ext.getCmp('main_tabpanel');
 	myTabPanel.add(prova_form_upload);
-	myTabPanel.add(prova_drag_button);
+	//myTabPanel.add(prova_drag_button);
 }
