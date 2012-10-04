@@ -141,7 +141,7 @@ var container_main = function container_main(){
 	            var form = this.up('form').getForm();
 	            if(form.isValid()){
 	                form.submit({
-	                    url: 'photo-upload.php',
+	                    url: 'ContainerFileUpload',
 	                    waitMsg: 'Uploading your file...',
 	                    success: function(fp, o) {
 	                        Ext.Msg.alert('Success', 'Your file "' + o.result.file + '" has been uploaded.');
