@@ -81,94 +81,77 @@ var container_main = function container_main(){
 	});
 	
 	
-	
+	// The data store containing the list of type of file
+	var filetipe = Ext.create('Ext.data.Store', {
+	    fields: ['num', 'name'],
+	    data : [
+	        {"num":"1", "name":"UNO"},
+	        {"num":"2", "name":"DUE"},
+	        {"num":"3", "name":"TRE"},
+	        {"num":"4", "name":"QUATTRO"},
+	        {"num":"5", "name":"CINQUE"},
+	        {"num":"6", "name":"SEI"}
+	        //...TODO: modificare i tipi di file
+	    ]
+	});
 	
 	var prova_form_upload = Ext.create('Ext.form.Panel', {
-	    title: 'Upload a Photo',
+	    title: 'Upload a File',
 	    width: 400,
 	    bodyPadding: 10,
 	    frame: true,
 	    items: [{
 	        xtype: 'filefield',
-	        name: 'photo',
-	        fieldLabel: 'Photo',
+	        name: 'file',
+	        fieldLabel: 'File',
 	        labelWidth: 50,
 	        msgTarget: 'side',
 	        allowBlank: false,
 	        anchor: '100%',
-	        buttonText: 'Select Photo...'
+	        buttonText: 'Select file...'
+	    },
+	    {
+	        xtype: 'textfield',
+	        fieldLabel: 'Num Lotto',
+	        name: 'nrLotto'
+	    },
+	    {
+	    	xtype: 'textfield',
+	        fieldLabel: 'Num Container',
+	        name: 'nrContainer'
+        }, {
+            xtype: 'combo',
+            id: 'TypeCombo',
+            fieldLabel: 'Scegli il tipo di file',
+            name: 'Tipo',
+            queryMode: 'local',
+            displayField: 'name',
+            valueField: 'abbr',
+            store: filetipe
 	    }],
 
 	    buttons: [{
+            text: 'Cancel',
+            handler: function() {
+                this.up('form').getForm().reset();
+            }
+	    },{
 	        text: 'Upload',
 	        handler: function() {
 	            var form = this.up('form').getForm();
 	            if(form.isValid()){
 	                form.submit({
 	                    url: 'photo-upload.php',
-	                    waitMsg: 'Uploading your photo...',
+	                    waitMsg: 'Uploading your file...',
 	                    success: function(fp, o) {
-	                        Ext.Msg.alert('Success', 'Your photo "' + o.result.file + '" has been uploaded.');
+	                        Ext.Msg.alert('Success', 'Your file "' + o.result.file + '" has been uploaded.');
 	                    }
 	                });
 	            }
 	        }
 	    }]
 	});
-	
-	var prova_drag_button = Ext.create('Ext.ux.upload.Button', {
-		text: 'Select files',
-		//singleFile: true,
-		plugins: [{
-                      ptype: 'ux.upload.window',
-                      title: 'Upload',
-                      width: 520,
-                      height: 350
-                  }
-        ],
-		uploader: 
-		{
-			url: 'upload.json',
-			uploadpath: '/Root/files',
-			autoStart: false,
-			max_file_size: '2020mb',			
-			drop_element: 'dragload',
-			statusQueuedText: 'Ready to upload',
-			statusUploadingText: 'Uploading ({0}%)',
-			statusFailedText: '<span style="color: red">Error</span>',
-			statusDoneText: '<span style="color: green">Complete</span>',
 
-			statusInvalidSizeText: 'File too large',
-			statusInvalidExtensionText: 'Invalid file type'
-		},
-		listeners: 
-		{
-			filesadded: function(uploader, files)								
-			{
-				//console.log('filesadded');
-				return true;
-			},
-			
-			beforeupload: function(uploader, file)								
-			{
-				//console.log('beforeupload');			
-			},
-
-			fileuploaded: function(uploader, file)								
-			{
-				//console.log('fileuploaded');
-			},
-			
-			uploadcomplete: function(uploader, success, failed)								
-			{
-				//console.log('uploadcomplete');				
-			},
-			scope: this
-		}
-				
-		
-	});
-	
 	var myTabPanel = Ext.getCmp('main_tabpanel');
 	myTabPanel.add(prova_form_upload);
 	myTabPanel.add(prova_drag_button);
