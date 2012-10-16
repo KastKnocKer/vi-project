@@ -85,13 +85,28 @@ var container_main = function container_main(){
 	var filetipe = Ext.create('Ext.data.Store', {
 	    fields: ['num', 'name'],
 	    data : [
-	        {"num":"1", "name":"UNO"},
-	        {"num":"2", "name":"DUE"},
-	        {"num":"3", "name":"TRE"},
-	        {"num":"4", "name":"QUATTRO"},
-	        {"num":"5", "name":"CINQUE"},
-	        {"num":"6", "name":"SEI"}
-	        //...TODO: modificare i tipi di file
+	        {"num":"1", "name":"1 FRONTESPIZIO"},
+	        {"num":"2", "name":"2 CONFERMA ORDINI FORNITORE"},
+	        {"num":"3", "name":"3 RICHIESTA BOOKING"},
+	        {"num":"4", "name":"4 CONFERMA BOOKING"},
+	        {"num":"5", "name":"5 ETICHETTE PALLET"},
+	        {"num":"6", "name":"6 PACKING LIST FORNITORE – CLIENTE"},
+	        {"num":"7", "name":"7 RICHIESTA DOC. CARICO CONTAINER"},
+	        {"num":"8", "name":"8 LETTERA DI VETTURA *"},
+	        {"num":"9", "name":"9 AGECONTROL *"},
+	        {"num":"10", "name":"10 FITOSANITARIO* - COLDTREATMENT *"},
+	        {"num":"11", "name":"11 FUMIGAZIONE"},
+	        {"num":"12", "name":"12 BOLLA FORNITORE"},
+	        {"num":"13", "name":"13 BOLLA CLIENTE"},
+	        {"num":"14", "name":"14 FATTURA CLIENTE *"},
+	        {"num":"15", "name":"15 FATTURA FORNITORE"},
+	        {"num":"16", "name":"16 # DHL RICEVUTO"},
+	        {"num":"17", "name":"17 FORNITORE – ACCONTO 50%"},
+	        {"num":"18", "name":"18 BILL OF LOADING"},
+	        {"num":"19", "name":"19 FATTURA DI ACCONTO"},
+	        {"num":"20", "name":"20 DOCUMENTI RICEVUTI PER POSTA DAL FORNITORE"},
+	        {"num":"21", "name":"21 CLIENTE – ACCONTO 50%"}
+	        
 	    ]
 	});
 	//TODO: aggiungere drag e drop
@@ -113,15 +128,17 @@ var container_main = function container_main(){
 	    {
 	        xtype: 'textfield',
 	        fieldLabel: 'Num Lotto',
+	        id: 'Lotto',
 	        name: 'nrLotto'
 	    },
 	    {
 	    	xtype: 'textfield',
 	        fieldLabel: 'Num Container',
+	        id: 'Container',
 	        name: 'nrContainer'
         }, {
             xtype: 'combo',
-            id: 'TypeCombo',
+            id: 'Tipo',
             fieldLabel: 'Scegli il tipo di file',
             name: 'Tipo',
             queryMode: 'local',
@@ -131,10 +148,16 @@ var container_main = function container_main(){
 	    }],
 
 	    buttons: [{
-            text: 'Cancel',
-            handler: function() {
-                this.up('form').getForm().reset();
-            }
+	    	 text: "Ok",
+	    	    handler: function () {
+	    	        Ext.Ajax.request({
+	    	            url: 'ContainerFileUpload',
+	    	            success: function (){alert('Valori inviati!!!');},
+	    	            failure: function (){alert('Errore di invio!!!');},
+		                   params: { container: prova_form_upload.getForm().findField('Container').getValue(),
+		                	             lotto: prova_form_upload.getForm().findField('Lotto').getValue() }
+	    	        });
+	    	    }
 	    },{
 	        text: 'Upload',
 	        handler: function() {
