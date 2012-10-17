@@ -85,27 +85,27 @@ var container_main = function container_main(){
 	var filetipe = Ext.create('Ext.data.Store', {
 	    fields: ['num', 'name'],
 	    data : [
-	        {"num":"1", "name":"1 FRONTESPIZIO"},
-	        {"num":"2", "name":"2 CONFERMA ORDINI FORNITORE"},
-	        {"num":"3", "name":"3 RICHIESTA BOOKING"},
-	        {"num":"4", "name":"4 CONFERMA BOOKING"},
-	        {"num":"5", "name":"5 ETICHETTE PALLET"},
-	        {"num":"6", "name":"6 PACKING LIST FORNITORE – CLIENTE"},
-	        {"num":"7", "name":"7 RICHIESTA DOC. CARICO CONTAINER"},
-	        {"num":"8", "name":"8 LETTERA DI VETTURA *"},
-	        {"num":"9", "name":"9 AGECONTROL *"},
-	        {"num":"10", "name":"10 FITOSANITARIO* - COLDTREATMENT *"},
-	        {"num":"11", "name":"11 FUMIGAZIONE"},
-	        {"num":"12", "name":"12 BOLLA FORNITORE"},
-	        {"num":"13", "name":"13 BOLLA CLIENTE"},
-	        {"num":"14", "name":"14 FATTURA CLIENTE *"},
-	        {"num":"15", "name":"15 FATTURA FORNITORE"},
-	        {"num":"16", "name":"16 # DHL RICEVUTO"},
-	        {"num":"17", "name":"17 FORNITORE – ACCONTO 50%"},
-	        {"num":"18", "name":"18 BILL OF LOADING"},
-	        {"num":"19", "name":"19 FATTURA DI ACCONTO"},
-	        {"num":"20", "name":"20 DOCUMENTI RICEVUTI PER POSTA DAL FORNITORE"},
-	        {"num":"21", "name":"21 CLIENTE – ACCONTO 50%"}
+	        {"num":"1", "name":"1 Frontespizio"},
+	        {"num":"2", "name":"2 Conferma ordini fornitore"},
+	        {"num":"3", "name":"3 Richiesta booking"},
+	        {"num":"4", "name":"4 Conferma booking"},
+	        {"num":"5", "name":"5 Etichette pallet"},
+	        {"num":"6", "name":"6 Packing list fornitore – cliente"},
+	        {"num":"7", "name":"7 Richiesta doc. carico container"},
+	        {"num":"8", "name":"8 Lettera di vettura"},
+	        {"num":"9", "name":"9 Agecontrol"},
+	        {"num":"10", "name":"10 Fitosanitario-Coldtreatment"},
+	        {"num":"11", "name":"11 Fumigazione"},
+	        {"num":"12", "name":"12 Bolla fornitore"},
+	        {"num":"13", "name":"13 Bolla cliente"},
+	        {"num":"14", "name":"14 Fattura cliente"},
+	        {"num":"15", "name":"15 Fattura fornitore"},
+	        {"num":"16", "name":"16 DHL ricevuto"},
+	        {"num":"17", "name":"17 Fornitore – acconto 50%"},
+	        {"num":"18", "name":"18 Bill of loading"},
+	        {"num":"19", "name":"19 Fattuar di acconto"},
+	        {"num":"20", "name":"20 Documenti ricevuti per posta dal fornitore"},
+	        {"num":"21", "name":"21 Cliente – acconto 50%"}
 	        
 	    ]
 	});
@@ -129,36 +129,51 @@ var container_main = function container_main(){
 	        xtype: 'textfield',
 	        fieldLabel: 'Num Lotto',
 	        id: 'Lotto',
+            allowBlank: false,
 	        name: 'nrLotto'
 	    },
 	    {
 	    	xtype: 'textfield',
 	        fieldLabel: 'Num Container',
 	        id: 'Container',
+            allowBlank: false,
 	        name: 'nrContainer'
         }, {
             xtype: 'combo',
             id: 'Tipo',
-            fieldLabel: 'Scegli il tipo di file',
+            fieldLabel: 'Tipo di file',
+            emptyText: 'Seleziona il tipo',
             name: 'Tipo',
             queryMode: 'local',
             displayField: 'name',
-            valueField: 'abbr',
+            valueField: 'num',
+            hiddenName:'cTypeID',
+            hiddenValue:0,
             store: filetipe
+        }, {
+            xtype: 'button',
+            text: 'Send',
+            id:'Sendbutton',
+            handler:function(){
+                Ext.Ajax.request({
+                    waitMsg:'Searching',
+                    url: 'ContainerFileUpload',
+                    method:'post',
+                    params:{
+                        type:Ext.getCmp('Tipo').getValue()         
+                    },
+                    success:function(){
+                        Ext.Msg.alert('It worked')
+                    },
+                    failure:function(){
+                        Ext.Msg.alert('Epic Fail')
+                        
+                    }
+                });
+            }
 	    }],
 
 	    buttons: [{
-	    	 text: "Ok",
-	    	    handler: function () {
-	    	        Ext.Ajax.request({
-	    	            url: 'ContainerFileUpload',
-	    	            success: function (){alert('Valori inviati!!!');},
-	    	            failure: function (){alert('Errore di invio!!!');},
-		                   params: { container: prova_form_upload.getForm().findField('Container').getValue(),
-		                	             lotto: prova_form_upload.getForm().findField('Lotto').getValue() }
-	    	        });
-	    	    }
-	    },{
 	        text: 'Upload',
 	        handler: function() {
 	            var form = this.up('form').getForm();
@@ -169,6 +184,7 @@ var container_main = function container_main(){
 	                    success: function(fp, o) {
 	                        Ext.Msg.alert('Success', 'Your file "' + o.result.file + '" has been uploaded.');
 	                    }
+	                
 	                });
 	            }
 	        }

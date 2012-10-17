@@ -61,7 +61,9 @@ public class ContainerFileUpload extends HttpServlet {
 	    String line = null;
 	    
 	    String file_name = nomeFile;
-	    File newFile = new File(file_name);
+	    int lunghezza = file_name.length();
+
+	    File newFile = new File(request.getParameter("nrTipo")+" #"+request.getParameter("nrLotto")+" - cntr "+request.getParameter("nrContainer")+file_name.subSequence(lunghezza-4, lunghezza));
 	    boolean exist = newFile.createNewFile();
 	    //per debug
 	    exist = true;
@@ -69,7 +71,7 @@ public class ContainerFileUpload extends HttpServlet {
 		    System.out.println("File already exists. "+newFile.getAbsolutePath());
 	    }else{
 	    	boolean isFirst = true;
-		    FileWriter fstream = new FileWriter(file_name);
+		    FileWriter fstream = new FileWriter(request.getParameter("nrTipo")+" #"+request.getParameter("nrLotto")+" - cntr "+request.getParameter("nrContainer")+file_name.subSequence(lunghezza-4, lunghezza));
 		    BufferedWriter out = new BufferedWriter(fstream);
 		    while ((line = reader.readLine()) != null){
 		    	System.out.println(line);
@@ -92,6 +94,11 @@ public class ContainerFileUpload extends HttpServlet {
 	}
 
 	
+	private String length() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private static String getFilename(Part part) {
 		   for (String cd : part.getHeader("content-disposition").split(";")) {
 		      if (cd.trim().startsWith("filename")) {
