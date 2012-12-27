@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-rpc-1.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mail.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ostermillerutils-1.08.01.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Miriam/Desktop/Vimport/itextpdf-5.3.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
