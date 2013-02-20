@@ -27,7 +27,7 @@ public class FatturazionePDF extends HttpServlet {
 	
 	private String nomeRistorante = "Nome Ristorante";
 	private String intestazioneRistorante = "Intestazione RISTORANTE VIA ETC ETC ETC";
-	private String numeroIncrementaleRicevutaFattura = "1234";
+	private String numeroIncrementaleRicevutaFattura = "123456";
 	private String data = "21/12/2011";
 	private String imponibile = "1234 €";
 	private String percentualeIVA = "23";
@@ -66,7 +66,7 @@ public class FatturazionePDF extends HttpServlet {
 			PdfWriter.getInstance(document,response.getOutputStream()); // Code 2
 			//  PdfWriter.getInstance(document, new FileOutputStream(filename));
 			
-			document.setMargins(40, 40, 50, 50);
+			document.setMargins(20, 20, 20, 20);
 	        document.setMarginMirroring(true);
 			
 			document.open();
@@ -174,12 +174,13 @@ public class FatturazionePDF extends HttpServlet {
         
         //Aggiungo la scritta Ricevuta Fiscale
         Font f = new Font();
-        f.setColor(BaseColor.WHITE);
+        f.setColor(BaseColor.BLACK);
         f.setSize(20);
-		cell = new PdfPCell(new Phrase(  "RICEVUTA / FATTURA FISCALE" ,f));/*calendar.getTime().toString()*/
-        cell.setBackgroundColor(BaseColor.BLACK);
+		cell = new PdfPCell(new Phrase(  "spazio vuoto" ,f));/*calendar.getTime().toString()*/
+        cell.setBackgroundColor(BaseColor.WHITE);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setColspan(20);
+        cell.setColspan(5);
+        cell.setRowspan(2);
         table.addCell(cell);
         
         //Aggiungo l'intestazione del ristorante

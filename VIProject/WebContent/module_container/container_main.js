@@ -110,6 +110,55 @@ var container_main = function container_main(){
 	    ]
 	});
 	
+	var fornitore = Ext.create('Ext.data.Store', {
+	    fields: ['id','fornitore'],
+	    data : [
+	        {"id":"01", "fornitore":"01 - DAGA"},
+	        {"id":"02", "fornitore":"02 - SOLFRUTTA"},
+	        {"id":"03", "fornitore":"03 - PATTINI"},
+	        {"id":"04", "fornitore":"04 - FRUTTAC2"},
+	        {"id":"05", "fornitore":"05 - OLIVERO"},
+	        {"id":"06", "fornitore":"06 - VOG"},
+	        {"id":"07", "fornitore":"07 - GASTALDELLI"},
+	        {"id":"08", "fornitore":"08 - CURMAC"},	        
+	    ]
+	});
+	
+	var destinatario = Ext.create('Ext.data.Store', {
+	    fields: ['id','destinatario'],
+	    data : [
+	        {"id":"CI", "destinatario":"CI - Fresh International"},
+	        {"id":"EE", "destinatario":"EE - Tomlange Company"},
+	        {"id":"VI", "destinatario":"VI - Bar Imex"},
+	        {"id":"AZ", "destinatario":"AZ - DNE"},
+
+	    ]
+	});
+	
+	var prodotto = Ext.create('Ext.data.Store', {
+	    fields: ['id','prodotto'],
+	    data : [
+	        {"id":"KW", "prodotto":"KW - Kiwi"},
+	        {"id":"RG", "prodotto":"RG - Mele Royal Gala"},
+	        {"id":"AF", "prodotto":"AF - Pere Abate Fetel"},
+	        {"id":"PA", "prodotto":"PA - Prugne Angeleno"},
+
+	    ]
+	});
+	
+	var campagna = Ext.create('Ext.data.Store', {
+	    fields: ['id','campagna'],
+	    data : [
+	        {"id":"10", "campagna":"10/11"},
+	        {"id":"11", "campagna":"11/12"},
+	        {"id":"12", "campagna":"12/13"},
+	        {"id":"13", "campagna":"13/14"},
+	        {"id":"14", "campagna":"14/15"},
+	        {"id":"15", "campagna":"15/16"},
+
+	    ]
+	});
+	
 	var form_da_aggiungere = Ext.create('Ext.form.Panel', {
 	    title: 'FORM',
 	    width: 400,
@@ -118,29 +167,61 @@ var container_main = function container_main(){
 	    frame: true,
 	   // anchor: '100% -51',
 	    items: [{
-	        xtype: 'textfield',
-	        fieldLabel: 'Fornitore',
-	        id: 'Fornitore',
+            xtype: 'combo',
             width: 250,
             y:60,
             x:50,
+            id: 'Fornitore',
+            fieldLabel: 'Fornitore',
             allowBlank: false,
-	        name: 'nrFornitore'
-	    },
-	    {
-	    	xtype: 'textfield',
+            queryMode: 'local',
+            displayField: 'fornitore',
+            valueField: 'id',
+            store: fornitore
+	    },{
+	    	xtype: 'combo',
 	        fieldLabel: 'Destinatario',
 	        id: 'Destinatario',
             width: 250,
             y:85,
             x:50,
             allowBlank: false,
-	        name: 'nrDestinatario'
+            displayField: 'destinatario',
+            valueField: 'id',
+            store: destinatario
+	    },{
+	    	xtype: 'combo',
+	        fieldLabel: 'Prodotto',
+	        id: 'Prodotto',
+            width: 200,
+ 	        y:60,
+	        x:320,
+            allowBlank: false,
+            displayField: 'prodotto',
+            valueField: 'id',
+            store: prodotto
+	    },{
+	    	xtype: 'combo',
+	        fieldLabel: 'Campagna',
+	        id: 'Campagna',
+            width: 200,
+ 	        y:85,
+	        x:320,
+            allowBlank: false,
+            displayField: 'campagna',
+            valueField: 'id',
+            store: campagna
 	    }, {
 	        xtype: 'textfield',
 	        fieldLabel: 'Num Lotto',
 	        id: 'Lotto1',
 	        allowBlank: false,
+	        listeners: {
+	            render: function() {
+	                this.getEl().on('mousedown', function(e, t, eOpts) {Ext.getCmp('Lotto1').setValue((Ext.getCmp('Destinatario').getValue()+Ext.getCmp('Fornitore').getValue()
+	                													+Ext.getCmp('Prodotto').getValue()+Ext.getCmp('Campagna').getValue()))}); 
+	            }
+	        },
 	        width: 250,
 	        y:110,
 	        x:50,
@@ -271,7 +352,7 @@ var container_main = function container_main(){
 	        id: 'BollaCliente',
             width: 180,
             y:85,
-            x:350,
+            x:550,
             allowBlank: true,
 	        name: 'BollaCliente'
         }, {
@@ -280,7 +361,7 @@ var container_main = function container_main(){
 	        id: 'BollaClienteData',
             width: 200,
             y:85,
-            x:550,
+            x:750,
             allowBlank: true,
 	        name: 'BollaClienteData'
         }, {
@@ -289,7 +370,7 @@ var container_main = function container_main(){
 	        id: 'FatturaCliente',
             width: 180,
             y:110,
-            x:350,
+            x:550,
             allowBlank: true,
 	        name: 'FatturaCliente'
         }, {
@@ -298,7 +379,7 @@ var container_main = function container_main(){
 	        id: 'FatturaClienteData',
             width: 200,
             y:110,
-            x:550,
+            x:750,
             allowBlank: true,
 	        name: 'FatturaClienteData'
         }, {
@@ -307,7 +388,7 @@ var container_main = function container_main(){
 	        id: 'BollaFornitore',
             width: 180,
             y:170,
-            x:350,
+            x:550,
             allowBlank: true,
 	        name: 'BollaFornitore'
         }, {
@@ -316,7 +397,7 @@ var container_main = function container_main(){
 	        id: 'BollaFornitoreData',
             width: 200,
             y:170,
-            x:550,
+            x:750,
             allowBlank: true,
 	        name: 'BollaFornitoreData'
         }, {
@@ -325,7 +406,7 @@ var container_main = function container_main(){
 	        id: 'FatturaFornitore',
             width: 180,
             y:195,
-            x:350,
+            x:550,
             allowBlank: true,
 	        name: 'FatturaFornitore'
         }, {
@@ -334,31 +415,37 @@ var container_main = function container_main(){
 	        id: 'FatturaFornitoreData',
             width: 200,
             y:195,
-            x:550,
+            x:750,
             allowBlank: true,
 	        name: 'FatturaFornitoreData'
         },{
-	        	  xtype: 'box',
-	        	  autoEl: {cn: 'Cliente'},
-	        	  id: 'cliente',
-	              width: 200,
-	              y:65,
-	              x:350,
+	       xtype: 'box',
+	       autoEl: {cn: 'Cliente'},
+	       id: 'cliente',
+	       width: 200,
+	       y:65,
+	       x:550,
         },{
       	  xtype: 'box',
       	  autoEl: {cn: 'Fornitore'},
       	  id: 'fornitore',
-            width: 200,
-            y:150,
-            x:350, 	
+          width: 200,
+          y:150,
+          x:550, 	
 	              	
 	    }],
-
 	    
 	});
 
-
-
+	
+//	//setto il valore del Lotto automaticamente
+//	var forn = Ext.getCmp('Fornitore');
+//	var dest = Ext.getCmp('Destinatario');
+//
+//	
+//	var prova = (forn.getValue() + dest.getValue() );
+//
+//	form_da_aggiungere.getComponent('Lotto1').setValue(prova);
 
 	var form_secondo = Ext.create('Ext.form.Panel', {
 	    title: 'Finestra principale',
@@ -390,6 +477,8 @@ var container_main = function container_main(){
     	            	form_secondo.add('Fornitore');
     	            	form_secondo.add('Destinatario');
     	            	form_secondo.add('Lotto1');
+    	            	form_secondo.add('Prodotto');
+    	            	form_secondo.add('Campagna');
     	            	form_secondo.add('Rif_Booking');
     	            	form_secondo.add('Nome_Nave');
     	            	form_secondo.add('Data_Carico_Magazzino');
@@ -414,7 +503,6 @@ var container_main = function container_main(){
     	    			form_secondo.add('FatturaFornitoreData');
     	    			form_secondo.add('cliente');
     	    			form_secondo.add('fornitore');
-
     	    			
     	    			form_secondo.add('grid');
 
@@ -436,44 +524,14 @@ var container_main = function container_main(){
 	});
 	  
 	
-	var Prodotto = Ext.create('Ext.data.Store', {
-	    fields: ['prodotto'],
-	    data : [
-	        {"prodotto":"prod1"},
-	        {"prodotto":"prod2"},
-	        {"prodotto":"prod3"},
-	        {"prodotto":"prod4"}
-	    ]
-	});
-
-//	var Calibro = Ext.create('Ext.data.Store', {
-//	    fields: ['calibro'],
-//	    data : [
-//	        {"calibro":"1"},
-//	        {"calibro":"2"},
-//	        {"calibro":"3"},
-//	        {"calibro":"4"}
-//	    ]
-//	});
-//
-//	var Pedane = Ext.create('Ext.data.Store', {
-//	    fields: ['pedane'],
-//	    data : [
-//	        {"pedane":"11"},
-//	        {"pedane":"22"},
-//	        {"pedane":"33"},
-//	        {"pedane":"44"}
-//	    ]
-//	});
-	
 	var store = Ext.create('Ext.data.Store', {
 	    storeId : 'store_prova',
 	    fields  : ['name', 'email', 'change'],
 	    data    : {'items' : [
-	        { 'prodotto' : 'prod1',  'calibro' : '1',  'pedane' : 11  },
-	        { 'prodotto' : 'prod2',  'calibro' : '2',  'pedane' : 22  },
-	        { 'prodotto' : 'prod3', 'calibro' : '3',  'pedane' : 33  },
-	        { 'prodotto' : 'prod4', 'calibro' : '4', 'pedane' : 44  }
+	        {  },
+	        {  },
+	        {  },
+	        {  },
 	    ]},
 	    proxy   : {
 	        type   : 'memory',
@@ -488,73 +546,6 @@ var container_main = function container_main(){
 	    xtype: 'textfield',
 	    allowBlank: false
 	};
-
-	Ext.define('MyComboField1',{
-	    extend:'Ext.form.ComboBox',
-	    alias: 'widget.customCombo1',
-	    store: Prodotto,
-	    queryMode: 'local',
-	    displayField: 'prodotto',
-	    valueField: 'prodotto'
-	});
-	
-	Ext.define('MyComboField2',{
-	    extend:'Ext.form.ComboBox',
-	    alias: 'widget.customCombo2',
-	    //store: Calibro,
-	    queryMode: 'local',
-	    displayField: 'calibro',
-	    valueField: 'calibro',
-	});
-	
-	Ext.define('MyComboField3',{
-	    extend:'Ext.form.ComboBox',
-	    alias: 'widget.customCombo3',
-	    //store: Pedane,
-	    queryMode: 'local',
-	    displayField: 'pedane',
-	    valueField: 'pedane'
-	});
-	
-	Ext.define('MyComboField4',{
-	    extend:'Ext.form.ComboBox',
-	    alias: 'widget.customCombo4',
-	    queryMode: 'local',
-	    displayField: 'colli',
-	    valueField: 'colli'
-	});
-	
-	Ext.define('MyComboField5',{
-	    extend:'Ext.form.ComboBox',
-	    alias: 'widget.customCombo5',
-	    queryMode: 'local',
-	    displayField: 'pesolordo',
-	    valueField: 'pesolordo'
-	});
-	
-	Ext.define('MyComboField6',{
-	    extend:'Ext.form.ComboBox',
-	    alias: 'widget.customCombo6',
-	    queryMode: 'local',
-	    displayField: 'pesonetto',
-	    valueField: 'pesonetto'
-	});
-	
-	Ext.define('MyComboField7',{
-	    extend:'Ext.form.ComboBox',
-	    alias: 'widget.customCombo7',
-	    queryMode: 'local',
-	    displayField: 'euroalkg',
-	    valueField: 'euroalkg'
-	});
-	
-	Ext.define('MyComboField8',{
-	    extend:'Ext.form.ComboBox',
-	    alias: 'widget.customCombo8',
-	    queryMode: 'local',
-	    displayField: 'dollarialpezzo',
-	    valueField: 'dollarialpezzo'
-	});
 
 	var cellEditing = Ext.create('Ext.grid.plugin.CellEditing',{
 	    clicksToEdit:1
@@ -574,53 +565,85 @@ var container_main = function container_main(){
 	        { 
 	          header: 'Prodotto',  
 	          dataIndex: 'prodotto', 
-	          editor: {xtype: 'customCombo1'},
 	          sortable: true,
-	          field: {xtype: 'textfield'},
-              width: 100,
+	            field: {
+	                xtype: 'combobox',
+	                typeAhead: true,
+	                triggerAction: 'all',
+	                selectOnTab: true,
+	                store: [
+	                    ['Kiwi','Kiwi'],
+	                    ['Mele Royal Gala','Mele Royal Gala'],
+	                    ['Pere Abate Fetel','Pere Abate Fetel'],
+	                    ['Prugne Angeleno','Prugne Angeleno']
+	                ],
+	                lazyRender: true,
+	                listClass: 'x-combo-list-small'
+	            },
+	            width: 100,
+              
 			},{
 			  header: 'Calibro', 
 	          dataIndex: 'calibro', 
 	          flex: 1, 
-	          editor: {xtype: 'customCombo2'},
-	          sortable: false,
+	          sortable: true,
               width: 50,
-	          field: {xtype: 'numberfield',	 minValue: 100, maxValue: 200},
-	        },{
+	            field: {
+	                xtype: 'combobox',
+	                typeAhead: true,
+	                triggerAction: 'all',
+	                selectOnTab: true,
+	                store: [
+	                    ['25','25'],
+	                    ['26','26'],
+	                    ['30','30'],
+	                    ['100','100'],
+	                    ['101','101'],
+	                    ['105','105'],
+	                    ['105','105'],
+	                ],
+	                lazyRender: true,
+	                listClass: 'x-combo-list-small'
+	            },	        },{
 	          header: '#Ped', 
 	          dataIndex: 'pedane', 
-	          editor: {xtype: 'customCombo3'},
 	          sortable: false,
-	          field: {xtype: 'numberfield'},
-              width: 45,
+	            field: {
+	                xtype: 'numberfield',
+	            },              
+	            width: 45,
 	        },{
 		       header: '#Colli', 
 		       dataIndex: 'colli', 
-		       editor: {xtype: 'customCombo4'},
 		       sortable: false,
-		       field: {xtype: 'numberfield'},
-	           width: 45,
+	            field: {
+	                xtype: 'numberfield',
+	            },        
+	            width: 45,
 	        },{
 		       header: 'Peso Lordo', 
 		       dataIndex: 'pesolordo', 
-		       editor: {xtype: 'customCombo5'},
 		       sortable: false,
-		       field: {xtype: 'numberfield'},
-	           width: 70
+	            field: {
+	                xtype: 'numberfield',
+	            },  
+	            width: 70
 	        },{
 		       header: 'Peso Netto', 
 		       dataIndex: 'pesonetto', 
-		       editor: {xtype: 'customCombo6'},
 		       sortable: false,
-		       field: {xtype: 'numberfield'},
-	           width: 70
+	            field: {
+	                xtype: 'numberfield',
+	            },           
+	            width: 70
 	        },{
 			    header: 'Euro/Kg', 
 			    dataIndex: 'euroalkg',
 		        width: 55,
-			    editor: {xtype: 'customCombo7'},
 			    sortable: false,
-			    field: {xtype: 'numberfield'},
+	            field: {
+	                xtype: 'numberfield',
+	            }, 
 	        },{
 			    header: 'SubTot', 
 			    dataIndex: 'subtot1', 
@@ -638,16 +661,16 @@ var container_main = function container_main(){
 			    header: '$/pz', 
 			    dataIndex: 'dollarialpezzo',
 		        width: 55,
-			    editor: {xtype: 'customCombo8'},
 			    sortable: false,
-			    field: {xtype: 'numberfield'},
-	        },{
+	            field: {
+	                xtype: 'numberfield',
+	            }, 	        },{
 			    header: 'SubTot', 
 			    dataIndex: 'subtot2', 
 	            //summaryType: 'sum',
 			    sortable: false,
 	            renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-	                return record.get('pesonetto') * record.get('euroalkg');
+	                return record.get('calibro') * record.get('dollarialpezzo');
 	            },
 	            field: {
 	                xtype: 'numberfield'
@@ -666,6 +689,7 @@ var container_main = function container_main(){
 	    plugins: [ cellEditing ],
 	    //renderTo : Ext.getBody()
 	});
+
 	
 	
 	//TODO: aggiungere drag e drop
