@@ -79,7 +79,7 @@ public class MySQLConnection{
 		JSONObject tmp_json_obj;
 		JSONArray json_array = new JSONArray();
 		
-		result.next();
+		//result.next();
 		
 		ResultSetMetaData rsmd = result.getMetaData();
         int columnCount = rsmd.getColumnCount();
@@ -91,6 +91,7 @@ public class MySQLConnection{
 
 			for (int i=0; i<columnCount; i++) {
 				try{
+					//DEBUG System.err.println(rsmd.getColumnName(i+1)+" - "+result.getString(i+1));
 					tmp_json_obj.put(rsmd.getColumnName(i+1), result.getString(i+1));
 				}catch(Exception e){
 					System.err.println("Errore traduzione in JSON OBJ");
