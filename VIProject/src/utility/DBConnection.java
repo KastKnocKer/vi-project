@@ -5,7 +5,6 @@ public class DBConnection extends MySQLConnection{
 	private static DBConnection staticDBConnection = null;
 	
 	public DBConnection(){
-		
 	}
 	
 	public static DBConnection getStaticDBConnection(){
