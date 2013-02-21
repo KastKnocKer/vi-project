@@ -688,11 +688,48 @@ var container_main = function container_main(){
 	    }],
 	    plugins: [ cellEditing ],
 	    //renderTo : Ext.getBody()
+	    
+//	    buttons: [{
+//	        text: 'Inserisci',
+//	//            y:200,
+//	//            x:200,
+//            width:100,
+//            height: 50,
+//	        handler: function() {
+//	            var form = this.up('form').getForm();
+//	            if(form.isValid()){
+//	                form.submit({
+//	                    url: 'Container',
+//	                    waitMsg: 'Sto caricando i dati',
+//	                    success: function(fp, o) {
+//	                        Ext.Msg.alert('Success', 'Your file "' + o.result.file + '" has been uploaded.');
+//	                    }
+//	                
+//	                });
+//	            }
+//	        }
+//	    }]
+	    
+	    buttons: [{
+	        text: 'Inserisci',
+	        handler: function() {
+	            var form = this.up('form').getForm();
+	            if(form.isValid()){
+	                form.submit({
+	                    url: 'Container',
+	                    waitMsg: 'Uploading your file...',
+	                    success: function(fp, o) {
+	                        Ext.Msg.alert('Success', 'Your file "' + o.result.file + '" has been uploaded.');
+	                    }
+	                
+	                });
+	            }
+	        }
+	    }]
 	});
 
 	
 	
-	//TODO: aggiungere drag e drop
 	var prova_form_upload = Ext.create('Ext.form.Panel', {
 	    title: 'Upload a File',
 	    width: 400,

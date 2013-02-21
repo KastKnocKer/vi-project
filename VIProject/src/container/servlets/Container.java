@@ -31,7 +31,7 @@ public class Container extends HttpServlet {
 
     
     /*
-     * PER TESTARE USA IL LINK http://localhost:8080/VIProject/Container?idOrdine=1&action=GET
+     * PER TESTARE USA QUESTO LINK http://localhost:8080/VIProject/Container?idOrdine=1&action=GET
      */
     
     
