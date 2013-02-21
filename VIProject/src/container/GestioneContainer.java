@@ -10,6 +10,29 @@ import utility.DBConnection;
 
 public class GestioneContainer {
 	
+	public static JSONArray getContainerList(){
+		//Mi faccio restituire il riferimento alla connessione
+		DBConnection db = new DBConnection();
+		db.connect();
+		ResultSet result;
+		JSONObject tmp_json_obj;
+		JSONArray json_array = null;
+		try {
+			PreparedStatement prepSt = (PreparedStatement) db.prepareStatement("SELECT idOrdine, numLotto FROM container_ordine;");
+			result = prepSt.executeQuery();
+			json_array = db.getJSONArrayFromResultSet(result);
+			result.close();     // Chiudo il ResultSet
+	        prepSt.close();   // Chiudo lo Statement
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.disconnect();		
+		return json_array;
+	}
+	
+	
+	
 	public static JSONArray getAllContainers(){
 		//Mi faccio restituire il riferimento alla connessione
 		DBConnection db = new DBConnection();

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import container.GestioneContainer;
 
 import utility.DBConnection;
+import utility.JSONResponse;
 
 /**
  * Servlet implementation class Container
@@ -45,20 +46,22 @@ public class Container extends HttpServlet {
 		}
 		
 		
-		if(Action.equals("GET")){
+		if(Action.equals("GETCONTAINERBYID")){
 			try{
 				idOrdine = Integer.parseInt(request.getParameter("idOrdine"));
 			}catch(Exception e){
 				System.err.println("[Servlet Container] Errore di parsing dell'idOrdine");
+				return;
 			}
-				
-			response.getWriter().println(GestioneContainer.getContainerByID(idOrdine));
+			JSONResponse.WriteOutput(response, true, "OK", "container", GestioneContainer.getContainerByID(idOrdine));
 			return;
 				
-		}else if(Action.equals("Insert")){
-				
-		}else if(Action.equals("Insert")){
-				
+		}else if(Action.equals("GETCONTAINERS")){
+			JSONResponse.WriteOutput(response, true, "OK", "container", GestioneContainer.getAllContainers());
+			return;
+		}else if(Action.equals("GETCONTAINERLIST")){
+			JSONResponse.WriteOutput(response, true, "OK", "container", GestioneContainer.getContainerList());
+			return;
 		}else if(Action.equals("Insert")){
 				
 		}
@@ -74,7 +77,7 @@ public class Container extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 	/**
