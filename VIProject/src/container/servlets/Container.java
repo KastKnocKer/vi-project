@@ -41,7 +41,7 @@ public class Container extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Action = request.getParameter("action");
 		if(Action == null){	//se il parametro è nullo abortisco
-			response.getWriter().println("Abort: Nessuna azione richiesta");
+			JSONResponse.WriteOutput(response, false, "Abort: Nessuna azione richiesta");
 			return;
 		}
 		
