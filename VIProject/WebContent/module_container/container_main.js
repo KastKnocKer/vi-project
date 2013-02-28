@@ -524,11 +524,40 @@ var container_main = function container_main(){
 //		fields:[ 'idOrdine','nrLotto' ] 
 //	}); 
 //	store.load();
-	   Ext.define('MyModel', {
-		    extend: 'Ext.data.Model',
-		    fields: ['idOrdine', 'numLotto']
-		});
 	   
+//	   Ext.define('MyModel', {
+//		    extend: 'Ext.data.Model',
+//	           proxy: {
+//	               type: 'ajax',
+//	               url: '/VIProject/Container',
+//	               reader: {
+//	                   type: 'json',
+//	                   root: 'container'
+//	             }
+//	          },
+//		    fields: ['idOrdine', 'numLotto']
+//		});
+//	   
+//	   var store = Ext.create('Ext.data.Store',{
+//	       model: MyModel,
+//           autoLoad: true,	   
+//	   });
+//	   
+       
+	    var proxy=new Ext.data.HttpProxy({url:'/VIProject/Container'});
+
+	    var reader=new Ext.data.JsonReader({},[
+	          {name: 'idOrdine', mapping: 'idOrdine'},
+	          {name: 'numLotto', mapping: 'numLotto'}
+	     ]);
+	   
+	     var store=new Ext.data.Store(    {
+	         proxy:proxy,
+	         reader:reader
+	     });
+
+	    store.load();
+	    
     var listView = Ext.create('Ext.grid.Panel', {
         width:425,
         height:250,
@@ -536,18 +565,7 @@ var container_main = function container_main(){
         collapsible:true,
         title:'Simple ListView <i>(0 items selected)</i>',
 //        renderTo: Ext.getBody(),
-        store: {
-            model: MyModel,
-            autoLoad: true,
-            proxy: {
-                type: 'ajax',
-                url: '/VIProject/Container',
-                reader: {
-                    type: 'json',
-                    root: 'container'
-                }
-            }
-        },
+        store: store,
         multiSelect: true,
         viewConfig: {
             emptyText: 'No images to display'
@@ -581,15 +599,6 @@ var container_main = function container_main(){
 //        width:100,
 //        height: 50,
 //	    handler: function () {
-//	        Ext.Ajax.request({
-//                url: '/VIProject/Container',
-//	            success: function (){alert('Lista caricata!');},
-//	            failure: function (){alert('Errore nel caricamento...');},
-//	            headers: {
-//	                'my-header': 'foo'
-//	            },
-//	            params: { action: "GETCONTAINERLIST" }
-//	        });
 //	    }
 //	});
     
