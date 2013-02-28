@@ -14,10 +14,10 @@ public class MySQLConnection{
 		Database password: aJ5*mL6*
 	 */
 	
-	private String Host			= "sql2.freemysqlhosting.net";
-	private String nomeDB 		= "sql23866";     		// Nome del Database a cui connettersi
-	private String nomeUtente	= "sql23866";   			// Nome utente utilizzato per la connessione al Database
-	private String pwdUtente	= "aJ5*mL6*";    			// Password usata per la connessione al Database
+	private String Host			= "db4free.net";
+	private String nomeDB 		= "viproject";     		// Nome del Database a cui connettersi
+	private String nomeUtente	= "viproject";   			// Nome utente utilizzato per la connessione al Database
+	private String pwdUtente	= "viproject";    			// Password usata per la connessione al Database
 	private String nomeDriver	= "com.mysql.jdbc.Driver";	//Contiene il nome del driver JDBC
 	private String errore		= "";       				// Raccoglie informazioni riguardo l'ultima eccezione sollevata
 	
