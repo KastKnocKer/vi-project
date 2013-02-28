@@ -159,6 +159,16 @@ var container_main = function container_main(){
 	    ]
 	});
 	
+//	var ordini = Ext.create('Ext.data.Store', {
+//	    fields: ['lotto'],
+//	    data : [
+//	        {"lotto":"LOTTO1"},
+//	        {"lotto":"LOTTO2"},
+//	        {"lotto":"LOTTO3"},
+//	        {"lotto":"LOTTO4"},
+//	        {"lotto":"LOTTO5"},
+//	    ]
+//	});
 	var form_da_aggiungere = Ext.create('Ext.form.Panel', {
 	    title: 'FORM',
 	    width: 400,
@@ -431,13 +441,38 @@ var container_main = function container_main(){
       	  id: 'fornitore',
           width: 200,
           y:150,
-          x:550, 	
+          x:550,
+        },{
+              xtype:'button',
+  	        text: 'Invia',
+  	        id: 'Invia_Dati',
+  	        y:550,
+  	        x:850,
+  	        width: 100,
+  	        height: 50,
+  	        listeners: {
+  	            click: function(){
+  	              var form = this.up('form').getForm();
+  	            if(form.isValid()){
+  	                form.submit({
+  	                    url: '/VIProject/Container',
+  	                    waitMsg: 'Uploading your file...',
+  	                    success: function(fp, o) {
+  	                        Ext.Msg.alert('Success', 'Your file "' + o.result.file + '" has been uploaded.');
+  	                    }
+  	                
+  	                });
+  	            }
+  	         }
+          }
+
 	              	
 	    }],
-	    
+	   
+ 
 	});
 
-	
+
 //	//setto il valore del Lotto automaticamente
 //	var forn = Ext.getCmp('Fornitore');
 //	var dest = Ext.getCmp('Destinatario');
@@ -447,6 +482,119 @@ var container_main = function container_main(){
 //
 //	form_da_aggiungere.getComponent('Lotto1').setValue(prova);
 
+	   Ext.define('DatiTabella', {
+	       extend: 'Ext.data.Model',
+	       fields: [
+	                {name: 'idOrdine', type: 'string'},
+	                {name: 'nrLotto', type: 'string'},
+	                ],
+	                proxy: {
+	                    type: 'ajax',
+	                    url : 'VIProject/Container',
+	            		reader: {
+	            	        type: 'json',
+	            	        root: 'container',
+	                        getResponseData: function(response) {
+	                            var data = Ext.data.reader.Json.prototype.getResponseData.call(this, response);
+
+	                            if (data && Ext.isArray(data.data)) {
+	                                data.data = Ext.Array.map(data.data, function(val) {
+	                                    return {emailDir: val};
+	                                });
+	                            }
+
+	                            return data;
+	                        }
+	            	    }
+	                }
+
+
+	   });
+
+//	      var ordini = Ext.create('Ext.data.Store', {
+//	         // pageSize: 10,
+//	  		storeId: 'dati_tabella',
+//	        model: 'DatiTabella',
+//			autoLoad: true,
+//	      });
+	
+
+//	var store = new Ext.data.JsonStore ({
+//		url:'/Container', 
+//		fields:[ 'idOrdine','nrLotto' ] 
+//	}); 
+//	store.load();
+	   Ext.define('MyModel', {
+		    extend: 'Ext.data.Model',
+		    fields: ['idOrdine', 'numLotto']
+		});
+	   
+    var listView = Ext.create('Ext.grid.Panel', {
+        width:425,
+        height:250,
+        id: 'lista',
+        collapsible:true,
+        title:'Simple ListView <i>(0 items selected)</i>',
+//        renderTo: Ext.getBody(),
+        store: {
+            model: MyModel,
+            autoLoad: true,
+            proxy: {
+                type: 'ajax',
+                url: '/VIProject/Container',
+                reader: {
+                    type: 'json',
+                    root: 'container'
+                }
+            }
+        },
+        multiSelect: true,
+        viewConfig: {
+            emptyText: 'No images to display'
+        },
+
+        columns: [{
+            text: 'idOrdine',
+            flex: 15,
+            sortable: true,
+            dataIndex: 'idOrdine'
+        },{
+            text: 'Last Modified',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'numLotto'
+        }]
+    });
+
+    // little bit of feedback
+    listView.on('selectionchange', function(view, nodes){
+        var l = nodes.length;
+        var s = l != 1 ? 's' : '';
+        listView.setTitle('Simple ListView <i>('+l+' item'+s+' selected)</i>');
+    });
+
+//	new Ext.Button({
+//	    text: "Carica dati lista",
+//	    id: 'carica',
+//        y:300,
+//        x:200,
+//        width:100,
+//        height: 50,
+//	    handler: function () {
+//	        Ext.Ajax.request({
+//                url: '/VIProject/Container',
+//	            success: function (){alert('Lista caricata!');},
+//	            failure: function (){alert('Errore nel caricamento...');},
+//	            headers: {
+//	                'my-header': 'foo'
+//	            },
+//	            params: { action: "GETCONTAINERLIST" }
+//	        });
+//	    }
+//	});
+    
+
+	
 	var form_secondo = Ext.create('Ext.form.Panel', {
 	    title: 'Finestra principale',
 	    width: 300,
@@ -456,7 +604,6 @@ var container_main = function container_main(){
 	    frame: true,
 	    layout: 'absolute',
 
-	    //TODO: settare posizione bottoni
 	    items:[{
             xtype:'panel',
             y:0,
@@ -503,6 +650,7 @@ var container_main = function container_main(){
     	    			form_secondo.add('FatturaFornitoreData');
     	    			form_secondo.add('cliente');
     	    			form_secondo.add('fornitore');
+    	    			form_secondo.add('Invia_Dati');
     	    			
     	    			form_secondo.add('grid');
 
@@ -519,10 +667,34 @@ var container_main = function container_main(){
                 x:75,
                 width:200,
                 height: 200,
+                listeners: {
+    	            click: function(){
+    	            	Ext.getCmp('Nuovo_Ordine').hide();
+    	            	Ext.getCmp('Modifica_Ordine').hide();
+
+    	    	        Ext.Ajax.request({
+    	                    url: '/VIProject/Container',
+
+    	    	            success: function (action){alert('Lista caricata!'); console.debug(action); },
+    	    	            failure: function (){alert('Errore nel caricamento...');},
+    	    	            headers: {
+    	    	                'my-header': 'foo'
+    	    	            },
+    	    	            params: { action: "GETCONTAINERLIST" }
+    	    	        });
+    	    	        
+    	            	form_secondo.add('lista');
+    	            	//form_secondo.add('carica');
+
+    	            	
+    	            }
+    	        }
+
             }]
         }]
 	});
 	  
+
 	
 	var store = Ext.create('Ext.data.Store', {
 	    storeId : 'store_prova',
@@ -710,22 +882,7 @@ var container_main = function container_main(){
 //	        }
 //	    }]
 	    
-	    buttons: [{
-	        text: 'Inserisci',
-	        handler: function() {
-	            var form = this.up('form').getForm();
-	            if(form.isValid()){
-	                form.submit({
-	                    url: 'Container',
-	                    waitMsg: 'Uploading your file...',
-	                    success: function(fp, o) {
-	                        Ext.Msg.alert('Success', 'Your file "' + o.result.file + '" has been uploaded.');
-	                    }
-	                
-	                });
-	            }
-	        }
-	    }]
+
 	});
 
 	
