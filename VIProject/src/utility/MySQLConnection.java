@@ -7,13 +7,6 @@ import org.json.JSONObject;
 
 public class MySQLConnection{
 	
-	/*
-	 	Host: sql2.freemysqlhosting.net
-		Database name: sql23866
-		Database user: sql23866
-		Database password: aJ5*mL6*
-	 */
-	
 	private String Host			= "db4free.net";
 	private String nomeDB 		= "viproject";     		// Nome del Database a cui connettersi
 	private String nomeUtente	= "viproject";   			// Nome utente utilizzato per la connessione al Database
