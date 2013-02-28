@@ -32,11 +32,83 @@ Ext.require(['Ext.grid.*',
         'Ext.ux.upload.plugin.Window']);
 
 
+
+
+
+
+
+
+
 /**
  * Funzione main del modulo container: visualizza la pagina di accesso al modulo
  */
 
 var container_main = function container_main(){
+	Ext.define('DettaglioListaContainer', {
+	    extend: 'Ext.data.Model',
+	    fields: [
+	        {name: 'idOrdine',     type: 'string'},
+	        {name: 'numLotto',      type: 'string'}
+	    ],
+	    proxy: {
+	        type: 'rest',
+	        url : '/VIProject/Container?action=GETCONTAINERLIST',
+	        reader: {
+		        type: 'json',
+		        model: 'DettaglioListaContainer',
+		        idProperty: 'idOrdine',
+		        root: 'container'	//INDICA LA SOTTOSEZIONE DELL'ALBERO JSON
+		    }
+	    }
+	});
+	
+	Ext.create('Ext.data.Store', {
+		storeId: 'datastore_lista_container',
+		model: 'DettaglioListaContainer',
+		autoLoad: true,
+		//autoSync: true,
+		//pageSize: 50
+	});
+	
+	
+	
+	
+//	
+//	//DEFINIZIONE MODELLO
+//	Ext.define('DettaglioListaContainer', {
+//	  extend: 'Ext.data.Model',
+//	  fields: [
+//	           {name: 'idOrdine', 		type: 'int'},
+//	           {name: 'numLotto', 		type: 'string'}
+//	  ],
+//	  proxy: {
+//	      type: 'rest',
+//	      url : 'Container',
+//	      appendId: true,
+//	      api: {
+//	          create: 	'Container',
+//	          read: 		'Container?action=GETCONTAINERLIST',
+//	          update: 	'Container',
+//	          destroy: 	'Container',
+//	      },
+//	      writer: {
+//	          type: 'singlepost'
+//	      },
+//			reader: {
+//		        type: 'json',
+//		        model: 'DettaglioListaContainer',
+//		        idProperty: 'idOrdine',
+//		        root: 'love'
+//		    }
+//	  }
+//	});
+//	
+	
+	
+	
+	
+	
+	
 	
 	Ext.create('Ext.container.Viewport', {
 	    layout: 'border',
@@ -544,20 +616,20 @@ var container_main = function container_main(){
 //	   });
 //	   
        
-	    var proxy=new Ext.data.HttpProxy({url:'/VIProject/Container'});
+//	    var proxy=new Ext.data.HttpProxy({url:'/VIProject/Container'});
+//
+//	    var reader=new Ext.data.JsonReader({},[
+//	          {name: 'idOrdine', mapping: 'idOrdine'},
+//	          {name: 'numLotto', mapping: 'numLotto'}
+//	     ]);
+//	   
+//	     var store=new Ext.data.Store(    {
+//	         proxy:proxy,
+//	         reader:reader
+//	     });
+//
+//	    store.load();
 
-	    var reader=new Ext.data.JsonReader({},[
-	          {name: 'idOrdine', mapping: 'idOrdine'},
-	          {name: 'numLotto', mapping: 'numLotto'}
-	     ]);
-	   
-	     var store=new Ext.data.Store(    {
-	         proxy:proxy,
-	         reader:reader
-	     });
-
-	    store.load();
-	    
     var listView = Ext.create('Ext.grid.Panel', {
         width:425,
         height:250,
@@ -565,7 +637,7 @@ var container_main = function container_main(){
         collapsible:true,
         title:'Simple ListView <i>(0 items selected)</i>',
 //        renderTo: Ext.getBody(),
-        store: store,
+        store: Ext.getStore('datastore_lista_container'),
         multiSelect: true,
         viewConfig: {
             emptyText: 'No images to display'
@@ -577,7 +649,7 @@ var container_main = function container_main(){
             sortable: true,
             dataIndex: 'idOrdine'
         },{
-            text: 'Last Modified',
+            text: 'Lotto',
             flex: 20,
             sortable: true,
             dataIndex: 'numLotto'
@@ -681,16 +753,16 @@ var container_main = function container_main(){
     	            	Ext.getCmp('Nuovo_Ordine').hide();
     	            	Ext.getCmp('Modifica_Ordine').hide();
 
-    	    	        Ext.Ajax.request({
-    	                    url: '/VIProject/Container',
-
-    	    	            success: function (action){alert('Lista caricata!'); console.debug(action); },
-    	    	            failure: function (){alert('Errore nel caricamento...');},
-    	    	            headers: {
-    	    	                'my-header': 'foo'
-    	    	            },
-    	    	            params: { action: "GETCONTAINERLIST" }
-    	    	        });
+//    	    	        Ext.Ajax.request({
+//    	                    url: '/VIProject/Container',
+//
+//    	    	            success: function (action){alert('Lista caricata!'); console.debug(action); },
+//    	    	            failure: function (){alert('Errore nel caricamento...');},
+//    	    	            headers: {
+//    	    	                'my-header': 'foo'
+//    	    	            },
+//    	    	            params: { action: "GETCONTAINERLIST" }
+//    	    	        });
     	    	        
     	            	form_secondo.add('lista');
     	            	//form_secondo.add('carica');
