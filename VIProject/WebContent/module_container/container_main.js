@@ -44,6 +44,8 @@ Ext.require(['Ext.grid.*',
  */
 
 var container_main = function container_main(){
+	
+	
 	Ext.define('DettaglioListaContainer', {
 	    extend: 'Ext.data.Model',
 	    fields: [
@@ -70,7 +72,53 @@ var container_main = function container_main(){
 		//pageSize: 50
 	});
 	
-	
+
+		Ext.define('DettaglioOrdine', {
+		    extend: 'Ext.data.Model',
+		    fields: [
+		        {name: 'idOrdine',     type: 'string'},
+		        {name: 'numLotto',      type: 'string'},
+		        {name: 'rifBooking',    type: 'string'},
+		        {name: 'nomeNave',      type: 'string'},
+		        {name: 'dataCaricoMagazzino',      type: 'string'},
+		        {name: 'portoImbarco',      type: 'string'},
+		        {name: 'dataImbarco',      type: 'string'},
+		        {name: 'portoArrivo',      type: 'string'},
+		        {name: 'dataArrivo',      type: 'string'},
+		        {name: 'nrContainer',      type: 'string'},
+		        {name: 'nrSigillo',      type: 'string'},
+		        {name: 'nrRyan1',      type: 'string'},
+		        {name: 'ponteRyan1',      type: 'string'},
+		        {name: 'nrRyan2',      type: 'string'},
+		        {name: 'ponteRyan2',      type: 'string'},
+		        {name: 'numBollaCliente',      type: 'string'},
+		        {name: 'dataBollaCliente',      type: 'string'},
+		        {name: 'numFatturaCliente',      type: 'string'},
+		        {name: 'dataFatturaCliente',      type: 'string'},
+		        {name: 'numBollaFornitore',      type: 'string'},
+		        {name: 'dataBollaFornitore',      type: 'string'},
+		        {name: 'numFatturaFornitore',      type: 'string'},
+		        {name: 'dataFatturaFornitore',      type: 'string'}
+		    ],
+		    proxy: {
+		        type: 'rest',
+		        url : '/VIProject/Container?action=GETCONTAINERBYID; idOrdine: 1',
+		        reader: {
+			        type: 'json',
+			        model: 'DettaglioOrdine',
+			        idProperty: 'idOrdine',
+			        root: 'container'	//INDICA LA SOTTOSEZIONE DELL'ALBERO JSON
+			    }
+		    }
+		});
+		
+		Ext.create('Ext.data.Store', {
+			storeId: 'datastore_ordini',
+			model: 'DettaglioOrdine',
+			autoLoad: true,
+			//autoSync: true,
+			//pageSize: 50
+		});
 	
 	
 //	
@@ -231,16 +279,7 @@ var container_main = function container_main(){
 	    ]
 	});
 	
-//	var ordini = Ext.create('Ext.data.Store', {
-//	    fields: ['lotto'],
-//	    data : [
-//	        {"lotto":"LOTTO1"},
-//	        {"lotto":"LOTTO2"},
-//	        {"lotto":"LOTTO3"},
-//	        {"lotto":"LOTTO4"},
-//	        {"lotto":"LOTTO5"},
-//	    ]
-//	});
+
 	var form_da_aggiungere = Ext.create('Ext.form.Panel', {
 	    title: 'FORM',
 	    width: 400,
@@ -307,7 +346,8 @@ var container_main = function container_main(){
 	        width: 250,
 	        y:110,
 	        x:50,
-	        name: 'nrLotto1'
+	        name: 'nrLotto1',
+	        dataindex: 'numLotto',
         }, {
 	    	xtype: 'numberfield',
 	        fieldLabel: 'Riferimento Booking',
@@ -315,7 +355,13 @@ var container_main = function container_main(){
             y:130,
             x:50,
             allowBlank: true,
-	        name: 'rifBooking'
+	        name: 'rifBooking',
+	        dataindex: 'rifBooking',
+		        listeners: {
+		            render: function() {
+		            	Ext.getCmp('Rif_Booking').setValue(Ext.getCmp('rifBooking')); 
+		            }
+		        },
         }, {
 	    	xtype: 'textfield',
 	        fieldLabel: 'Nome Nave',
@@ -324,7 +370,8 @@ var container_main = function container_main(){
             y:160,
             x:50,
             allowBlank: true,
-	        name: 'NomeNave'
+	        name: 'NomeNave',
+	        dataindex: 'nomeNave'
         }, {
 	    	xtype: 'datefield',
 	        fieldLabel: 'Data carico a magazzino',
@@ -332,7 +379,8 @@ var container_main = function container_main(){
             y:180,
             x:50,
             allowBlank: true,
-	        name: 'DataCaricoMagazzino'
+	        name: 'DataCaricoMagazzino',
+	        dataindex: 'dataCaricoMagazzino'
         }, {
 	    	xtype: 'textfield',
 	        fieldLabel: 'Porto imbarco',
@@ -341,7 +389,8 @@ var container_main = function container_main(){
             y:210,
             x:50,
             allowBlank: true,
-	        name: 'PortoImbarco'
+	        name: 'PortoImbarco',
+	        dataindex: 'portoImbarco'
         }, {
 	    	xtype: 'datefield',
 	        fieldLabel: 'Data imbarco',
@@ -349,7 +398,8 @@ var container_main = function container_main(){
             y:235,
             x:50,	        
             allowBlank: true,
-	        name: 'DataImbarco'
+	        name: 'DataImbarco',
+	        dataindex: 'dataImbarco'
         }, {
 	    	xtype: 'textfield',
 	        fieldLabel: 'Porto arrivo',
@@ -358,7 +408,8 @@ var container_main = function container_main(){
             y:260,
             x:50,
             allowBlank: true,
-	        name: 'PortoArrivo'
+	        name: 'PortoArrivo',
+	        dataindex: 'portoArrivo'
         }, {
 	    	xtype: 'datefield',
 	        fieldLabel: 'Data arrivo',
@@ -474,6 +525,21 @@ var container_main = function container_main(){
             allowBlank: true,
 	        name: 'BollaFornitore'
         }, {
+	    	xtype: 'textfield',
+	        fieldLabel: 'VALORESECE',
+	        id: 'valoresece',
+            width: 180,
+            y:200,
+            x:10,
+	        name: 'valoresece',	        
+	        dataindex: 'nomeNave',
+	        listeners: {
+	            render: function() {
+	            	Ext.getCmp('valoresece').setValue(Ext.getCmp('rifBooking')); 
+	            }
+	        },
+	        	
+        }, {
 	    	xtype: 'datefield',
 	        fieldLabel: 'Data',
 	        id: 'BollaFornitoreData',
@@ -545,15 +611,6 @@ var container_main = function container_main(){
 	});
 
 
-//	//setto il valore del Lotto automaticamente
-//	var forn = Ext.getCmp('Fornitore');
-//	var dest = Ext.getCmp('Destinatario');
-//
-//	
-//	var prova = (forn.getValue() + dest.getValue() );
-//
-//	form_da_aggiungere.getComponent('Lotto1').setValue(prova);
-
 	   Ext.define('DatiTabella', {
 	       extend: 'Ext.data.Model',
 	       fields: [
@@ -579,60 +636,82 @@ var container_main = function container_main(){
 	                        }
 	            	    }
 	                }
-
-
 	   });
 
-//	      var ordini = Ext.create('Ext.data.Store', {
-//	         // pageSize: 10,
-//	  		storeId: 'dati_tabella',
-//	        model: 'DatiTabella',
-//			autoLoad: true,
-//	      });
-	
 
-//	var store = new Ext.data.JsonStore ({
-//		url:'/Container', 
-//		fields:[ 'idOrdine','nrLotto' ] 
-//	}); 
-//	store.load();
+	   var gridContextMenu = Ext.create('Ext.menu.Menu', {
+		   items: [
+		   // we are feeding our declared actions to Context Menu Items array
+		    {
+		   text: 'Seleziona ordine',
+		   handler: function(){
+//			 container_main.showOrdine(rec.get('idOrdine'),rec.get('numLotto'));  
+   	        Ext.Ajax.request({
+                   url: '/VIProject/Container',
+
+   	            success: function (action){alert('Ok!!');
+            		Ext.getCmp('portoArrivo').set(action.result.data[0].numLotto);
+        //    		updatedNode.set('nomeNave',			action.result.data[0].nomeNave);
+          //  		updatedNode.set('portoArrivo', 		action.result.data[0].portoArrivo);
+   	            },
+   	            failure: function (){alert('Errore nel caricamento...');},
+   	            headers: {
+   	                'my-header': 'foo'
+   	            },
+   	            params: { action: "GETCONTAINERBYID", idOrdine: "1"}  //TODO: settare che l'id è quello selezionato
+   	        });   
+			   var nomeNave = 'nomeNave';
+			form_secondo.add('Fornitore');
+        	form_secondo.add('Destinatario');
+        	form_secondo.add('Lotto1');
+        	form_secondo.add('Prodotto');
+        	form_secondo.add('Campagna');
+        	form_secondo.add('Rif_Booking');
+        	form_secondo.add('Nome_Nave');
+        	form_secondo.add('Data_Carico_Magazzino');
+        	form_secondo.add('Porto_Imbarco');
+        	form_secondo.add('Data_Imbarco');
+        	form_secondo.add('Porto_Arrivo');
+        	form_secondo.add('Data_Arrivo');
+        	form_secondo.add('Container1');
+        	form_secondo.add('Sigillo');
+        	form_secondo.add('Ryan_Uno');
+        	form_secondo.add('Ryan_Due');
+        	form_secondo.add('Data_Ricez_Posta');
+        	form_secondo.add('Data_Invio_Posta');
+        	form_secondo.add('Annotazioni');
+        	form_secondo.add('BollaCliente');
+			form_secondo.add('BollaClienteData');
+        	form_secondo.add('FatturaCliente');
+			form_secondo.add('FatturaClienteData');
+        	form_secondo.add('BollaFornitore');
+			form_secondo.add('BollaFornitoreData');
+        	form_secondo.add('FatturaFornitore');
+			form_secondo.add('FatturaFornitoreData');
+			form_secondo.add('cliente');
+			form_secondo.add('fornitore');
+			form_secondo.add('Invia_Dati');
+			
+			form_secondo.add('grid');
+        	Ext.getCmp('lista').hide();
+        	Ext.getCmp('lista2').hide();
+
+			
+		   }
+		    }
+		   ]
+		   });
 	   
-//	   Ext.define('MyModel', {
-//		    extend: 'Ext.data.Model',
-//	           proxy: {
-//	               type: 'ajax',
-//	               url: '/VIProject/Container',
-//	               reader: {
-//	                   type: 'json',
-//	                   root: 'container'
-//	             }
-//	          },
-//		    fields: ['idOrdine', 'numLotto']
-//		});
-//	   
-//	   var store = Ext.create('Ext.data.Store',{
-//	       model: MyModel,
-//           autoLoad: true,	   
-//	   });
-//	   
-       
-//	    var proxy=new Ext.data.HttpProxy({url:'/VIProject/Container'});
-//
-//	    var reader=new Ext.data.JsonReader({},[
-//	          {name: 'idOrdine', mapping: 'idOrdine'},
-//	          {name: 'numLotto', mapping: 'numLotto'}
-//	     ]);
-//	   
-//	     var store=new Ext.data.Store(    {
-//	         proxy:proxy,
-//	         reader:reader
-//	     });
-//
-//	    store.load();
+	   
+//showOrdine : function(identificativoOrdine, numeroLotto){
+//	var store = Ext.getStore('')
+//}
 
     var listView = Ext.create('Ext.grid.Panel', {
         width:425,
         height:250,
+        x: 50,
+        y: 10,
         id: 'lista',
         collapsible:true,
         title:'Simple ListView <i>(0 items selected)</i>',
@@ -653,7 +732,16 @@ var container_main = function container_main(){
             flex: 20,
             sortable: true,
             dataIndex: 'numLotto'
-        }]
+        }],
+        viewConfig: {
+        	listeners: {
+        	itemcontextmenu: function(view, rec, node, index, event) {
+        	event.stopEvent(); // stops the default event. i.e. Windows Context Menu
+        	gridContextMenu.showAt(event.getXY()); // show context menu where user right clicked
+        	return false;
+        	           }
+        	 	  }
+        	},
     });
 
     // little bit of feedback
@@ -663,6 +751,156 @@ var container_main = function container_main(){
         listView.setTitle('Simple ListView <i>('+l+' item'+s+' selected)</i>');
     });
 
+    
+    var lista2 = Ext.create('Ext.grid.Panel', {
+//        width:800,
+//        height:250,
+        x: 50,
+        y: 300,
+        id: 'lista2',
+        collapsible:true,
+        title:'Ordini <i>(0 items selected)</i>',
+//        renderTo: Ext.getBody(),
+        store: Ext.getStore('datastore_ordini'),
+        multiSelect: true,
+        viewConfig: {
+            emptyText: 'No images to display'
+        },
+
+        columns: [{
+            text: 'idOrdine',
+            flex: 15,
+            sortable: true,
+            dataIndex: 'idOrdine'
+        },{
+            text: 'numLotto',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'numLotto'
+        },{
+            text: 'rifBooking',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'rifBooking'
+        },{
+            text: 'nomeNave',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'nomeNave'
+        },{
+            text: 'dataCaricoMagazzino',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'dataCaricoMagazzino'
+        },{
+            text: 'portoImbarco',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'portoImbarco'
+        },{
+            text: 'dataImbarco',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'dataImbarco'
+        },{
+            text: 'portoArrivo',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'portoArrivo'
+        },{
+            text: 'dataArrivo',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'dataArrivo'
+        },{
+            text: 'nrContainer',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'nrContainer'
+        },{
+            text: 'nrSigillo',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'nrSigillo'
+        },{
+            text: 'nrRyan1',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'nrRyan1'
+        },{
+            text: 'ponteRyan1',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'ponteRyan1'
+        },{
+            text: 'nrRyan2',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'nrRyan2'
+        },{
+            text: 'ponteRyan2',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'ponteRyan2'
+        },{
+            text: 'numBollaCliente',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'numBollaCliente'
+        },{
+            text: 'dataBollaCliente',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'dataBollaCliente'
+        },{
+            text: 'numFatturaCliente',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'numFatturaCliente'
+        },{
+            text: 'dataFatturaCliente',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'dataFatturaCliente'
+        },{
+            text: 'numBollaFornitore',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'numBollaFornitore'
+        },{
+            text: 'dataBollaFornitore',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'dataBollaFornitore'
+        },{
+            text: 'numFatturaFornitore',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'numFatturaFornitore'
+        },{
+            text: 'dataFatturaFornitore',
+            flex: 20,
+            sortable: true,
+            dataIndex: 'dataFatturaFornitore'
+        }],
+        viewConfig: {
+        	listeners: {
+        	itemcontextmenu: function(view, rec, node, index, event) {
+        	event.stopEvent(); // stops the default event. i.e. Windows Context Menu
+        	gridContextMenu.showAt(event.getXY()); // show context menu where user right clicked
+        	return false;
+        	           }
+        	 	  }
+        	},
+    });
+
+    // little bit of feedback
+    listView.on('selectionchange', function(view, nodes){
+        var l = nodes.length;
+        var s = l != 1 ? 's' : '';
+        listView.setTitle('Simple ListView <i>('+l+' item'+s+' selected)</i>');
+    });
+    
 //	new Ext.Button({
 //	    text: "Carica dati lista",
 //	    id: 'carica',
@@ -675,7 +913,6 @@ var container_main = function container_main(){
 //	});
     
 
-	
 	var form_secondo = Ext.create('Ext.form.Panel', {
 	    title: 'Finestra principale',
 	    width: 300,
@@ -753,18 +990,10 @@ var container_main = function container_main(){
     	            	Ext.getCmp('Nuovo_Ordine').hide();
     	            	Ext.getCmp('Modifica_Ordine').hide();
 
-//    	    	        Ext.Ajax.request({
-//    	                    url: '/VIProject/Container',
-//
-//    	    	            success: function (action){alert('Lista caricata!'); console.debug(action); },
-//    	    	            failure: function (){alert('Errore nel caricamento...');},
-//    	    	            headers: {
-//    	    	                'my-header': 'foo'
-//    	    	            },
-//    	    	            params: { action: "GETCONTAINERLIST" }
-//    	    	        });
     	    	        
     	            	form_secondo.add('lista');
+    	            	form_secondo.add('lista2');
+    	            	form_secondo.add('valoresece');
     	            	//form_secondo.add('carica');
 
     	            	
